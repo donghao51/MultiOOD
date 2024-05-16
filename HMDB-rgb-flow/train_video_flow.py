@@ -327,7 +327,6 @@ if __name__ == '__main__':
     mlp_cls = Encoder(input_dim=v_dim+f_dim, out_dim=num_class)
     mlp_cls = mlp_cls.cuda()
 
-
     base_path = "checkpoints/"
     if not os.path.exists(base_path):
         os.mkdir(base_path)
