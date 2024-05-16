@@ -7,6 +7,7 @@ import numpy as np
 import torch.nn as nn
 import random
 from dataloader_video_flow import EPICDOMAIN
+from dataloader_video_flow_hac import HACDOMAIN
 
 def ash_b(x, percentile=90):
     assert x.dim() == 4
@@ -87,7 +88,7 @@ if __name__ == '__main__':
     parser.add_argument('--near_ood', action='store_true')
     parser.add_argument("--dataset", type=str, default='HMDB') # HMDB UCF Kinetics
     parser.add_argument('--far_ood', action='store_true')
-    parser.add_argument("--ood_dataset", type=str, default='UCF') # HMDB UCF Kinetics
+    parser.add_argument("--ood_dataset", type=str, default='UCF') # HMDB UCF Kinetics HAC
     args = parser.parse_args()
 
     np.random.seed(args.seed)
@@ -149,7 +150,10 @@ if __name__ == '__main__':
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if args.far_ood:
-        eval_dataset = EPICDOMAIN(split='eval', cfg=cfg, cfg_flow=cfg_flow, datapath=args.datapath, dataset=args.dataset, near_ood=args.near_ood, far_ood=args.far_ood, ood_dataset=args.ood_dataset)
+        if args.ood_dataset == "HAC":
+            eval_dataset = HACDOMAIN(cfg=cfg, cfg_flow=cfg_flow, datapath=args.datapath)
+        else:
+            eval_dataset = EPICDOMAIN(split='eval', cfg=cfg, cfg_flow=cfg_flow, datapath=args.datapath, dataset=args.dataset, near_ood=args.near_ood, far_ood=args.far_ood, ood_dataset=args.ood_dataset)
         eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=args.bsz, num_workers=args.num_workers, shuffle=False,
                                                     pin_memory=(device.type == "cuda"), drop_last=False)
         dataloaders = {'eval': eval_dataloader}
