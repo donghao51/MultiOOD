@@ -110,6 +110,7 @@ def train_one_step(model, clip, labels, flow, model_flow, epoch_i):
         for index in range(num_class):
             sum_temp += number_dict[index]
         a2d_loss_ood = torch.zeros(1).cuda()[0]
+        ood_entropy_loss = torch.zeros(1).cuda()[0]
         if (sum_temp == num_class * args.sample_number) and (epoch_i < args.start_epoch):
             target_numpy = labels.cpu().data.numpy()
             for index in range(len(labels)):

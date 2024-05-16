@@ -23,7 +23,7 @@ def load_txt_file_kinetics(file_path):
     return paths, labels
 
 class EPICDOMAIN(torch.utils.data.Dataset):
-    def __init__(self, split='train', eval=False, cfg=None, cfg_flow=None, sample_dur=10, dataset='HMDB', near_ood=True, datapath='/scratch/project_2000948/data/haod/EPIC-KITCHENS/'):
+    def __init__(self, split='train', eval=False, cfg=None, cfg_flow=None, sample_dur=10, dataset='HMDB', near_ood=True, far_ood=False, ood_dataset='UCF', datapath='/scratch/project_2000948/data/haod/EPIC-KITCHENS/'):
         self.base_path = datapath
         self.split = split
         self.interval = 9
@@ -40,13 +40,14 @@ class EPICDOMAIN(torch.utils.data.Dataset):
             self.pipeline = Compose(val_pipeline)
             val_pipeline_flow = cfg_flow.data.val.pipeline
             self.pipeline_flow = Compose(val_pipeline_flow)
-
-        if near_ood:
-            train_file_name = dataset + "_" + split + "_near_ood.txt"
+        if far_ood:
+            train_file_name = "splits/" + "ID_" + dataset + "_OOD_" + ood_dataset + ".txt"
+        elif near_ood:
+            train_file_name = "splits/" + dataset + "_" + split + "_near_ood.txt"
         else:
-            train_file_name = dataset + "_" + split + ".txt"
+            train_file_name = "splits/" + dataset + "_" + split + ".txt"
 
-        if dataset == "Kinetics":
+        if dataset == "Kinetics" or ood_dataset == "Kinetics":
             self.samples, self.labels = load_txt_file_kinetics(train_file_name)
         else:
             self.samples, self.labels = load_txt_file(train_file_name)
