@@ -6,27 +6,22 @@ import imageio.v3 as iio
 
 
 class HACDOMAIN(torch.utils.data.Dataset):
-    def __init__(self, version='v2',  modality='rgb', cfg=None, cfg_flow=None, datapath='/cluster/work/ibk_chatzi/hao/CharadesEgo/',appen=''):
+    def __init__(self,  modality='rgb', cfg=None, cfg_flow=None, datapath='',appen=''):
         self.base_path = datapath
         self.video_list = []
         self.prefix_list = []
         self.label_list = []
 
         for domain in ['human', 'animal', 'cartoon']:
-            if domain == 'animal':
-                prefix = 'ActorShift/'
-            elif domain == 'human':
-                prefix = 'kinetics600/'
-            else:
-                prefix = 'cartoon/'
-            with open(self.base_path + "splits/%s/ActorShift_test_only_%s.csv" % (version, domain)) as f:
+            prefix = domain + '/'
+            with open("splits/HAC_test_only_%s.csv" % (domain)) as f:
                 f_csv = csv.reader(f)
                 for i, row in enumerate(f_csv):
                     self.video_list.append(row[0])
                     self.prefix_list.append(prefix)
                     self.label_list.append(row[1])
 
-            with open(self.base_path + "splits/%s/ActorShift_train_only_%s.csv" % (version, domain)) as f:
+            with open("splits/HAC_train_only_%s.csv" % (domain)) as f:
                 f_csv = csv.reader(f)
                 for i, row in enumerate(f_csv):
                     self.video_list.append(row[0])
@@ -46,7 +41,7 @@ class HACDOMAIN(torch.utils.data.Dataset):
         self.cfg = cfg
         self.cfg_flow = cfg_flow
         self.interval = 9
-        self.video_path_base = self.base_path + 'ActorShift/'
+        self.video_path_base = self.base_path + 'HAC/'
         if not os.path.exists(self.video_path_base):
             os.mkdir(self.video_path_base)
 

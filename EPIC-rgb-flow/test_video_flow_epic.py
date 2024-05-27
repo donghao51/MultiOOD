@@ -53,10 +53,7 @@ def validate_one_step(model, clip, labels, flow, model_flow):
             f_emd = f_emd.clip(max=args.f_thr)
             f_emd = f_emd.view(f_emd.size(0), -1)
 
-        if args.use_pred_sum:
-            predict = nn.Softmax(dim=1)(f_predict + v_predict)
-        elif args.use_mlp_cls:
-            predict = mlp_cls(v_emd, f_emd)
+        predict = mlp_cls(v_emd, f_emd)
 
         feature = torch.cat((v_emd, f_emd), dim=1)
 
@@ -75,8 +72,8 @@ class Encoder(nn.Module):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--datapath', type=str, default='/scratch/project_2000948/data/haod/EPIC-KITCHENS/',
-                        help='mimii')
+    parser.add_argument('--datapath', type=str, default='/path/to/video_datasets/',
+                        help='datapath')
     parser.add_argument('--bsz', type=int, default=16,
                         help='batch_size')
     parser.add_argument("--resumef", type=str, default='checkpoint.pt')
@@ -100,6 +97,23 @@ if __name__ == '__main__':
 
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+
+    if args.use_react:
+        percentile = 90
+        if args.far_ood:
+            feature_name = 'saved_files/id_'+args.dataset+'_feature_' + args.appen + 'val.npy'
+        else:
+            feature_name = 'saved_files/id_'+args.ood_dataset+'_near_ood_feature_' + args.appen + 'val.npy'
+        id_train_feature = np.load(feature_name)
+        v_emd = id_train_feature[:, :2304]
+        args.v_thr = np.percentile(v_emd.flatten(), percentile)
+        f_emd = id_train_feature[:, 2304:]
+        args.f_thr = np.percentile(f_emd.flatten(), percentile)
+
+        args.appen = args.appen + 'react_'
+
+    if args.use_ash:
+        args.appen = args.appen + 'ash_'
 
     # init_distributed_mode(args)
     config_file = 'configs/recognition/slowfast/slowfast_r101_8x8x1_256e_kinetics400_rgb.py'

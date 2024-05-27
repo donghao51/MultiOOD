@@ -71,8 +71,8 @@ class Encoder(nn.Module):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--datapath', type=str, default='/cluster/work/ibk_chatzi/hao/dataset/video_datasets/HMDB51/',
-                        help='mimii')
+    parser.add_argument('--datapath', type=str, default='/path/to/video_datasets/',
+                        help='datapath')
     parser.add_argument('--bsz', type=int, default=16,
                         help='batch_size')
     parser.add_argument("--resumef", type=str, default='checkpoint.pt')
@@ -97,6 +97,23 @@ if __name__ == '__main__':
 
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+
+    if args.use_react:
+        percentile = 90
+        if args.near_ood:
+            feature_name = 'saved_files/id_'+args.dataset+'_near_ood_feature_' + args.appen + 'val.npy'
+        else:
+            feature_name = 'saved_files/id_'+args.dataset+'_feature_' + args.appen + 'val.npy'
+        id_train_feature = np.load(feature_name)
+        v_emd = id_train_feature[:, :2304]
+        args.v_thr = np.percentile(v_emd.flatten(), percentile)
+        f_emd = id_train_feature[:, 2304:]
+        args.f_thr = np.percentile(f_emd.flatten(), percentile)
+
+        args.appen = args.appen + 'react_'
+
+    if args.use_ash:
+        args.appen = args.appen + 'ash_'
 
     # init_distributed_mode(args)
     config_file = 'configs/recognition/slowfast/slowfast_r101_8x8x1_256e_kinetics400_rgb.py'
@@ -170,17 +187,18 @@ if __name__ == '__main__':
         test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=args.bsz, num_workers=args.num_workers, shuffle=False,
                                                     pin_memory=(device.type == "cuda"), drop_last=False)
         
-        eval_dataset = EPICDOMAIN(split='eval', cfg=cfg, cfg_flow=cfg_flow, datapath=args.datapath, dataset=args.dataset, near_ood=args.near_ood)
-        eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=args.bsz, num_workers=args.num_workers, shuffle=False,
-                                                    pin_memory=(device.type == "cuda"), drop_last=False)
-        dataloaders = {'train': train_dataloader, 'val': val_dataloader, 'test': test_dataloader, 'eval': eval_dataloader}
-
         if args.near_ood:
+            eval_dataset = EPICDOMAIN(split='eval', cfg=cfg, cfg_flow=cfg_flow, datapath=args.datapath, dataset=args.dataset, near_ood=args.near_ood)
+            eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=args.bsz, num_workers=args.num_workers, shuffle=False,
+                                                        pin_memory=(device.type == "cuda"), drop_last=False)
+            dataloaders = {'train': train_dataloader, 'val': val_dataloader, 'test': test_dataloader, 'eval': eval_dataloader}
+
             if args.dataset == "Kinetics":
                 splits = ['test', 'eval', 'val']
             else:
                 splits = ['test', 'eval', 'train', 'val']
         else:
+            dataloaders = {'train': train_dataloader, 'val': val_dataloader, 'test': test_dataloader}
             if args.dataset == "Kinetics":
                 splits = ['test', 'val']
             else:

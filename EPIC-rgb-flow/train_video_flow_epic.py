@@ -153,28 +153,20 @@ def train_one_step(model, clip, labels, flow, model_flow, epoch_i):
                         (ood_samples, ood_data_sample), 0)
 
             if len(ood_samples) != 0:
+                v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
+                a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                 if args.max_ood_l1:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood = -nn.L1Loss()(nn.Softmax(dim=1)(v_pred_ood), nn.Softmax(dim=1)(a_pred_ood))
                 elif args.max_ood_l2:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood = -nn.MSELoss()(nn.Softmax(dim=1)(v_pred_ood), nn.Softmax(dim=1)(a_pred_ood))
                 elif args.max_ood_hellinger:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood = -hellinger_distance(F.softmax(v_pred_ood, dim=1), F.softmax(a_pred_ood, dim=1))
                 elif args.max_ood_wasserstein:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood1 = -wasserstein_distance(F.softmax(v_pred_ood, dim=1), F.softmax(a_pred_ood, dim=1))
                     a2d_loss_ood2 = -wasserstein_distance(F.softmax(a_pred_ood, dim=1), F.softmax(v_pred_ood, dim=1))
                     a2d_loss_ood = (a2d_loss_ood1 + a2d_loss_ood2) / 2
 
                 # max_ood_entropy
-                v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                 v_pred_ood_ent = normalized_prediction_entropy(v_pred_ood)
                 a_pred_ood_ent = normalized_prediction_entropy(a_pred_ood)
                 ood_entropy_loss = -(torch.mean(v_pred_ood_ent) + torch.mean(a_pred_ood_ent)) / 2
@@ -231,8 +223,8 @@ class Encoder(nn.Module):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--datapath', type=str, default='/cluster/work/ibk_chatzi/hao/EPIC-KITCHENS/',
-                        help='mimii')
+    parser.add_argument('--datapath', type=str, default='/path/to/video_datasets/',
+                        help='datapath')
     parser.add_argument('--lr', type=float, default=1e-4,
                         help='lr')
     parser.add_argument('--bsz', type=int, default=16,
@@ -401,7 +393,6 @@ if __name__ == '__main__':
         model_flow.load_state_dict(checkpoint['model_flow_state_dict'])
         optim.load_state_dict(checkpoint['optimizer'])
         mlp_cls.load_state_dict(checkpoint['mlp_cls_state_dict'])
-
     else:
         print("Training From Scratch ..." )
         starting_epoch = 0
@@ -477,7 +468,7 @@ if __name__ == '__main__':
                                 }
                                 save['mlp_cls_state_dict'] = mlp_cls.state_dict()
 
-                                torch.save(save, base_path_model + log_name + '_best_%s.pt'%(str(epoch_i)))
+                                torch.save(save, base_path_model + log_name + '_best.pt')
 
                         if args.save_checkpoint:
                             save = {

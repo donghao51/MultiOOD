@@ -153,28 +153,20 @@ def train_one_step(model, clip, labels, flow, model_flow, epoch_i):
                         (ood_samples, ood_data_sample), 0)
 
             if len(ood_samples) != 0:
+                v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
+                a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                 if args.max_ood_l1:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood = -nn.L1Loss()(nn.Softmax(dim=1)(v_pred_ood), nn.Softmax(dim=1)(a_pred_ood))
                 elif args.max_ood_l2:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood = -nn.MSELoss()(nn.Softmax(dim=1)(v_pred_ood), nn.Softmax(dim=1)(a_pred_ood))
                 elif args.max_ood_hellinger:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood = -hellinger_distance(F.softmax(v_pred_ood, dim=1), F.softmax(a_pred_ood, dim=1))
                 elif args.max_ood_wasserstein:
-                    v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                    a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                     a2d_loss_ood1 = -wasserstein_distance(F.softmax(v_pred_ood, dim=1), F.softmax(a_pred_ood, dim=1))
                     a2d_loss_ood2 = -wasserstein_distance(F.softmax(a_pred_ood, dim=1), F.softmax(v_pred_ood, dim=1))
                     a2d_loss_ood = (a2d_loss_ood1 + a2d_loss_ood2) / 2
 
                 # max_ood_entropy
-                v_pred_ood = model.module.cls_head.fc_cls(ood_samples[:,:v_dim])
-                a_pred_ood = model_flow.module.cls_head.fc_cls(ood_samples[:,v_dim:])
                 v_pred_ood_ent = normalized_prediction_entropy(v_pred_ood)
                 a_pred_ood_ent = normalized_prediction_entropy(a_pred_ood)
                 ood_entropy_loss = -(torch.mean(v_pred_ood_ent) + torch.mean(a_pred_ood_ent)) / 2
@@ -231,8 +223,8 @@ class Encoder(nn.Module):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--datapath', type=str, default='/cluster/work/ibk_chatzi/hao/dataset/video_datasets/HMDB51/',
-                        help='mimii')
+    parser.add_argument('--datapath', type=str, default='/path/to/video_datasets/',
+                        help='datapath')
     parser.add_argument('--lr', type=float, default=1e-4,
                         help='lr')
     parser.add_argument('--bsz', type=int, default=16,
@@ -437,10 +429,15 @@ if __name__ == '__main__':
                                                    pin_memory=(device.type == "cuda"), drop_last=False)
     dataloaders = {'train': train_dataloader, 'val': val_dataloader, 'test': test_dataloader}
 
+    if args.dataset == 'Kinetics':
+        splits = ['train', 'val']
+    else:
+        splits = ['train', 'val', 'test']
+
     with open(log_path, "a") as f:
         for epoch_i in range(starting_epoch, args.nepochs):
             print("Epoch: %02d" % epoch_i)
-            for split in ['train', 'val', 'test']:
+            for split in splits:
                 acc = 0
                 count = 0
                 total_loss = 0
@@ -473,12 +470,7 @@ if __name__ == '__main__':
                             BestLoss = total_loss / float(count)
                             BestEpoch = epoch_i
                             BestAcc = acc / float(count)
-                            
 
-                    if split == 'test':
-                        currenttestAcc = acc / float(count)
-                        if currentvalAcc >= BestAcc:
-                            BestTestAcc = currenttestAcc
                             if args.save_best:
                                 save = {
                                     'epoch': epoch_i,
@@ -492,21 +484,27 @@ if __name__ == '__main__':
                                 }
                                 save['mlp_cls_state_dict'] = mlp_cls.state_dict()
 
-                                torch.save(save, base_path_model + log_name + '_best_%s.pt'%(str(epoch_i)))
+                                torch.save(save, base_path_model + log_name + '_best.pt')
+                            
 
-                        if args.save_checkpoint:
-                            save = {
-                                'epoch': epoch_i,
-                                'BestLoss': BestLoss,
-                                'BestEpoch': BestEpoch,
-                                'BestAcc': BestAcc,
-                                'BestTestAcc': BestTestAcc,
-                                'model_state_dict': model.state_dict(),
-                                'model_flow_state_dict': model_flow.state_dict(),
-                                'optimizer': optim.state_dict(),
-                            }
-                            save['mlp_cls_state_dict'] = mlp_cls.state_dict()
-                            torch.save(save, base_path_model + log_name + '.pt')
+                    if split == 'test':
+                        currenttestAcc = acc / float(count)
+                        if currentvalAcc >= BestAcc:
+                            BestTestAcc = currenttestAcc
+
+                    if args.save_checkpoint:
+                        save = {
+                            'epoch': epoch_i,
+                            'BestLoss': BestLoss,
+                            'BestEpoch': BestEpoch,
+                            'BestAcc': BestAcc,
+                            'BestTestAcc': BestTestAcc,
+                            'model_state_dict': model.state_dict(),
+                            'model_flow_state_dict': model_flow.state_dict(),
+                            'optimizer': optim.state_dict(),
+                        }
+                        save['mlp_cls_state_dict'] = mlp_cls.state_dict()
+                        torch.save(save, base_path_model + log_name + '.pt')
                         
                     f.write("{},{},{},{}\n".format(epoch_i, split, total_loss / float(count), acc / float(count)))
                     f.flush()

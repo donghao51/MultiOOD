@@ -24,14 +24,24 @@ def generalized_entropy(softmax_id_val, gamma=0.1, M=20):
         scores = np.sum(probs_sorted**gamma * (1 - probs_sorted)**(gamma), axis=1)
         return -scores 
 
+
+def acc(pred, label):
+    ind_pred = pred[label != -1]
+    ind_label = label[label != -1]
+
+    num_tp = np.sum(ind_pred == ind_label)
+    acc = num_tp / len(ind_label)
+
+    return acc
+
 normalizer = lambda x: x / np.linalg.norm(x, axis=-1, keepdims=True) + 1e-10
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--postprocessor", type=str, default='msp') # 'msp' 'ebo' 'maxlogit' 'Mahalanobis' 'ash' 'react' 'knn' 'gen' 'vim'
-parser.add_argument("--appen", type=str, default='fc_') 
-parser.add_argument("--dataset", type=str, default='HMDB') # HMDB UCF Kinetics EPIC
+parser.add_argument("--appen", type=str, default='a2d_npmix_best_') # a2d_npmix_best_ a2d_npmix_best_ash_ a2d_npmix_best_react_
+parser.add_argument("--dataset", type=str, default='Kinetics') # HMDB UCF Kinetics EPIC
 parser.add_argument("--path", type=str, default='HMDB-rgb-flow') # HMDB-rgb-flow EPIC-rgb-flow
-parser.add_argument("--resume_file", type=str, default='HMDB-rgb-flow/models/checkpoint.pt')
+parser.add_argument("--resume_file", type=str, default='HMDB-rgb-flow/models/checkpoint.pt') # for vim 'HMDB_near_ood_a2d_npmix.pt'
 args = parser.parse_args()
 
 v_dim = 2304
@@ -129,6 +139,9 @@ id_pred = np.load(pred_name)
 id_conf = np.load(conf_name)
 id_gt = np.load(label_name)
 id_feature = np.load(feature_name)
+
+ID_ACC = acc(id_pred, id_gt)
+print("ID_ACC: ", ID_ACC)
 
 if args.postprocessor == 'ebo' or args.postprocessor == 'ash' or args.postprocessor == 'react':
     temperature = 1.0

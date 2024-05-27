@@ -23,7 +23,7 @@ def load_txt_file_kinetics(file_path):
     return paths, labels
 
 class EPICDOMAIN(torch.utils.data.Dataset):
-    def __init__(self, split='train', eval=False, cfg=None, cfg_flow=None, sample_dur=10, dataset='HMDB', near_ood=True, far_ood=False, ood_dataset='UCF', datapath='/scratch/project_2000948/data/haod/EPIC-KITCHENS/'):
+    def __init__(self, split='train', eval=False, cfg=None, cfg_flow=None, sample_dur=10, dataset='HMDB', near_ood=True, far_ood=False, ood_dataset='UCF', datapath=''):
         self.base_path = datapath
         self.split = split
         self.interval = 9
@@ -54,14 +54,14 @@ class EPICDOMAIN(torch.utils.data.Dataset):
 
         self.cfg = cfg
         self.cfg_flow = cfg_flow
-        self.dataset = dataset
+        if far_ood:
+            self.dataset = ood_dataset
+        else:
+            self.dataset = dataset
 
     def __getitem__(self, index):
         video_path = ''
-        if self.dataset == "Kinetics":
-            video_file = self.base_path + 'Kinetics-600-train/' + self.samples[index]
-        else:
-            video_file = self.base_path + 'video/' + self.samples[index]
+        video_file = self.base_path + 'video/' + self.samples[index]
         vid = iio.imread(video_file, plugin="pyav")
 
         frame_num = vid.shape[0]
@@ -94,12 +94,8 @@ class EPICDOMAIN(torch.utils.data.Dataset):
             end_index = v_name.index('.')
             v_name_pure = v_name[:end_index]
 
-        if self.dataset == "Kinetics":
-            video_file_x = self.base_path + 'Kinetics-600-train-flow/' + v_name_pure + '_flow_x.mp4'
-            video_file_y = self.base_path + 'Kinetics-600-train-flow/' + v_name_pure + '_flow_y.mp4'
-        else:
-            video_file_x = self.base_path + 'flow/' + v_name_pure + '_flow_x.mp4'
-            video_file_y = self.base_path + 'flow/' + v_name_pure + '_flow_y.mp4'
+        video_file_x = self.base_path + 'flow/' + v_name_pure + '_flow_x.mp4'
+        video_file_y = self.base_path + 'flow/' + v_name_pure + '_flow_y.mp4'
 
         vid_x = iio.imread(video_file_x, plugin="pyav")
         vid_y = iio.imread(video_file_y, plugin="pyav")
