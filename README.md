@@ -38,7 +38,7 @@ MultiOOD is the first-of-its-kind benchmark for Multimodal OOD Detection, charac
 MultiOOD is based on five public action recognition datasets (HMDB51, UCF101, EPIC-Kitchens, HAC, and Kinetics-600). 
 
 ### Prepare Datasets
-1. Download HMDB51 video data from [link](http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar) and extract. Download HMDB51 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/hmdb51_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
+1. Download HMDB51 video data from [link](https://serre-lab.clps.brown.edu/resource/hmdb-a-large-human-motion-database/#Downloads) and extract. Download HMDB51 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/hmdb51_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
 
 ```
 HMDB51
@@ -56,7 +56,7 @@ HMDB51
 |   ├── ...
 ```
 
-1. Download UCF101 video data from [link](https://www.crcv.ucf.edu/data/UCF101/UCF101.rar) and extract. Download UCF101 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/ucf101_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
+2. Download UCF101 video data from [link](https://www.crcv.ucf.edu/data/UCF101/UCF101.rar) and extract. Download UCF101 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/ucf101_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
 
 ```
 UCF101
@@ -168,7 +168,7 @@ The splits for Multimodal Near-OOD and Far-OOD Benchmarks are provided under `HM
 
 ## Methodology
 <div style="text-align:left">
-<img src="imgs/frame.jpg"  width="60%" height="100%">
+<img src="imgs/frame.jpg"  width="80%" height="100%">
 </div>
 
 ---
