@@ -44,9 +44,6 @@ parser.add_argument("--path", type=str, default='HMDB-rgb-flow') # HMDB-rgb-flow
 parser.add_argument("--resume_file", type=str, default='HMDB-rgb-flow/models/checkpoint.pt') # for vim 'HMDB_far_ood_a2d_npmix.pt'
 args = parser.parse_args()
 
-v_dim = 2304
-f_dim = 2048
-
 if args.dataset == 'HMDB':
     num_classes = 43
 elif args.dataset == 'Kinetics':
@@ -102,7 +99,7 @@ if args.postprocessor == 'vim':
     id_train_feature = np.load(feature_name)
 
     vim_dim = 256
-    fc = Encoder(v_dim+f_dim, num_classes)
+    fc = Encoder(id_train_feature.shape[1], num_classes)
     checkpoint = torch.load(args.resume_file, map_location=torch.device('cpu'))
     fc.load_state_dict(checkpoint['mlp_cls_state_dict'])
     vim_w = fc.enc_net.weight.cpu().detach().numpy()
