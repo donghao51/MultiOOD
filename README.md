@@ -471,6 +471,43 @@ python eval_video_flow_far_ood.py --postprocessor msp --appen 'a2d_npmix_best_' 
 
 </details>
 
+### Multimodal Near-OOD Benchmark with Video, Audio, and Optical Flow
+
+#### EPIC-Kitchens 4/4
+<details>
+<summary>Click for details...</summary>
+
+```
+cd EPIC-rgb-flow/
+```
+
+Train the Near-OOD baseline model for EPIC:
+
+```
+python train_video_flow_audio_epic.py --dataset 'EPIC' --lr 0.0001 --seed 0 --bsz 16 --num_workers 10 --nepochs 20 --appen '' --save_best --save_checkpoint --datapath '/path/to/EPIC-Kitchens/' 
+```
+
+Train the Near-OOD model using A2D and NP-Mix for EPIC:
+
+```
+python train_video_flow_audio_epic.py --dataset 'EPIC' --lr 0.0001 --seed 0 --bsz 16 --num_workers 10 --start_epoch 10 --use_single_pred --use_a2d --a2d_max_hellinger --a2d_ratio 0.5 --use_npmix --max_ood_hellinger --a2d_ratio_ood 0.5 --ood_entropy_ratio 0.5 --nepochs 20 --appen '' --save_best --save_checkpoint --datapath '/path/to/EPIC-Kitchens/' 
+```
+
+You can also download our provided checkpoints (`EPIC_near_ood_vfa_baseline.pt` and `EPIC_near_ood_vfa_a2d_npmix.pt`) from [link](https://huggingface.co/datasets/hdong51/MultiOOD/tree/main/checkpoints).
+
+Save the evaluation files for EPIC (to save evaluation files for ASH or ReAct, you should also run following line with options `--use_ash` or `--use_react`):
+```
+python test_video_flow_audio_epic.py --bsz 16 --num_workers 2  --ood_dataset 'EPIC' --appen 'a2d_npmix_best_' --resumef '/path/to/EPIC_near_ood_vfa_a2d_npmix.pt'
+```
+
+Evaluation for EPIC (change `--postprocessor` to different score functions):
+```
+python eval_video_flow_near_ood.py --postprocessor msp --appen 'vfa_a2d_npmix_best_' --dataset 'EPIC' --path 'EPIC-rgb-flow/'
+```
+
+</details>
+
+
 
 ## Contact
 If you have any questions, please send an email to donghaospurs@gmail.com
