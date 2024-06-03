@@ -507,6 +507,39 @@ python eval_video_flow_near_ood.py --postprocessor msp --appen 'vfa_a2d_npmix_be
 
 </details>
 
+#### Kinetics-600 129/100
+<details>
+<summary>Click for details...</summary>
+
+```
+cd HMDB-rgb-flow/
+```
+
+Train the Near-OOD baseline model for Kinetics:
+
+```
+python train_video_flow_audio.py --near_ood --dataset 'Kinetics' --lr 0.0001 --seed 0 --bsz 16 --num_workers 10 --nepochs 20 --appen '' --save_best --save_checkpoint --datapath '/path/to/Kinetics-600/' 
+```
+
+Train the Near-OOD model using A2D and NP-Mix for Kinetics:
+
+```
+python train_video_flow_audio.py --near_ood --dataset 'Kinetics' --lr 0.0001 --seed 0 --bsz 16 --num_workers 10 --start_epoch 10 --use_single_pred --use_a2d --a2d_max_hellinger --a2d_ratio 0.5 --use_npmix --max_ood_hellinger --a2d_ratio_ood 0.5 --ood_entropy_ratio 0.5 --nepochs 20 --appen '' --save_best --save_checkpoint --datapath '/path/to/Kinetics-600/' 
+```
+
+You can also download our provided checkpoints (`Kinetics_near_ood_vfa_baseline.pt` and `Kinetics_near_ood_vfa_a2d_npmix.pt`) from [link](https://huggingface.co/datasets/hdong51/MultiOOD/tree/main/checkpoints).
+
+Save the evaluation files for Kinetics (to save evaluation files for ASH or ReAct, you should also run following line with options `--use_ash` or `--use_react`):
+```
+python test_video_flow_audio.py --bsz 16 --num_workers 2 --near_ood --dataset 'Kinetics' --appen 'a2d_npmix_best_' --resumef '/path/to/Kinetics_near_ood_a2d_npmix.pt'
+```
+
+Evaluation for Kinetics (change `--postprocessor` to different score functions):
+```
+python eval_video_flow_near_ood.py --postprocessor msp --appen 'vfa_a2d_npmix_best_' --dataset 'Kinetics' --path 'HMDB-rgb-flow/'
+```
+
+</details>
 
 
 ## Contact
@@ -520,7 +553,7 @@ If you find our work useful in your research please consider citing our paper:
 @article{dong2024multiood,
 	author   = {Hao Dong and Yue Zhao and Eleni Chatzi and Olga Fink},
 	title    = {{MultiOOD: Scaling Out-of-Distribution Detection for Multiple Modalities}},
-        journal  = {arXiv preprint arXiv:2405.17419},
+    journal  = {arXiv preprint arXiv:2405.17419},
 	year     = {2024},
 }
 ```
