@@ -18,7 +18,7 @@
 
 <div>
     <h4 align="center">
-        • <a href="https://arxiv.org/abs/2405." target='_blank'>arXiv</a> •
+        • <a href="https://arxiv.org/abs/2405.17419" target='_blank'>arXiv</a> •
     </h4>
 </div>
 
@@ -520,6 +520,7 @@ If you find our work useful in your research please consider citing our paper:
 @article{dong2024multiood,
 	author   = {Hao Dong and Yue Zhao and Eleni Chatzi and Olga Fink},
 	title    = {{MultiOOD: Scaling Out-of-Distribution Detection for Multiple Modalities}},
+        journal  = {arXiv preprint arXiv:2405.17419},
 	year     = {2024},
 }
 ```
