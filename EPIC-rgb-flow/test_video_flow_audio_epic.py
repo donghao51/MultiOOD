@@ -83,8 +83,8 @@ class Encoder(nn.Module):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--datapath', type=str, default='/scratch/project_2000948/data/haod/EPIC-KITCHENS/',
-                        help='mimii')
+    parser.add_argument('--datapath', type=str, default='/path/to/video_datasets/',
+                        help='datapath')
     parser.add_argument('--bsz', type=int, default=16,
                         help='batch_size')
     parser.add_argument("--resumef", type=str, default='checkpoint.pt')
