@@ -39,6 +39,9 @@ MultiOOD is based on five public action recognition datasets (HMDB51, UCF101, EP
 
 ### Prepare Datasets
 1. Download HMDB51 video data from [link](https://serre-lab.clps.brown.edu/resource/hmdb-a-large-human-motion-database/#Downloads) and extract. Download HMDB51 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/hmdb51_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
+<details>
+<summary>Click for details...</summary>
+
 
 ```
 HMDB51
@@ -56,7 +59,12 @@ HMDB51
 |   ├── ...
 ```
 
+</details>
+
 2. Download UCF101 video data from [link](https://www.crcv.ucf.edu/data/UCF101/UCF101.rar) and extract. Download UCF101 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/ucf101_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
+<details>
+<summary>Click for details...</summary>
+
 
 ```
 UCF101
@@ -71,6 +79,8 @@ UCF101
 |   ├── ...
 ```
 
+</details>
+
 3. Download EPIC-Kitchens video and optical flow data by 
 ```
 bash utils/download_epic_script.sh 
@@ -78,6 +88,9 @@ bash utils/download_epic_script.sh
 Download audio data from [link](https://polybox.ethz.ch/index.php/s/PE2zIL99OWXQfMu).
 
 Unzip all files and the directory structure should be modified to match:
+<details>
+<summary>Click for details...</summary>
+
 
 ```
 EPIC-KITCHENS
@@ -106,7 +119,12 @@ EPIC-KITCHENS
 |   |   ├── D3
 ```
 
+</details>
+
 4. Download HAC video, audio and optical flow data from [link](https://polybox.ethz.ch/index.php/s/3F8ZWanMMVjKwJK) and extract. The directory structure should be modified to match:
+<details>
+<summary>Click for details...</summary>
+
 
 ```
 HAC
@@ -134,6 +152,9 @@ HAC
 |   ├── audio
 |   |   ├── ...
 ```
+
+</details>
+
 5. Download Kinetics-600 video data by 
 ```
 wget -i utils/filtered_k600_train_path.txt
@@ -145,6 +166,9 @@ python utils/generate_audio_files.py
 Download Kinetics-600 optical flow data (kinetics600_flow_mp4_part_*) from [link](https://huggingface.co/datasets/hdong51/MultiOOD/tree/main) and extract (run `cat kinetics600_flow_mp4_part_* > kinetics600_flow_mp4.tar.gz` and then `tar -zxvf kinetics600_flow_mp4.tar.gz`).
 
 Unzip all files and the directory structure should be modified to match:
+<details>
+<summary>Click for details...</summary>
+
 
 ```
 Kinetics-600
@@ -161,6 +185,8 @@ Kinetics-600
 |   |   ├── *_flow_y.mp4
 |   ├── ...
 ```
+
+</details>
 
 ### Dataset Splits
 The splits for Multimodal Near-OOD and Far-OOD Benchmarks are provided under `HMDB-rgb-flow/splits/` for HMDB51, UCF101, HAC, and Kinetics-600, and under `EPIC-rgb-flow/splits/` for EPIC-Kitchens.
@@ -557,6 +583,14 @@ If you find our work useful in your research please consider citing our paper:
 	year     = {2024},
 }
 ```
+
+## Related Projects
+
+[NNG-Mix](https://github.com/donghao51/NNG-Mix): Improving Semi-supervised Anomaly Detection with Pseudo-anomaly Generation
+
+[SimMMDG](https://github.com/donghao51/SimMMDG): A Simple and Effective Framework for Multi-modal Domain Generalization
+
+[MOOSA](https://github.com/donghao51/MOOSA): Towards Multimodal Open-Set Domain Generalization and Adaptation through Self-supervision
 
 ## Acknowledgement
 
