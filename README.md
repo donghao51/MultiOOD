@@ -85,7 +85,7 @@ UCF101
 ```
 bash utils/download_epic_script.sh 
 ```
-Download audio data from [link](https://polybox.ethz.ch/index.php/s/PE2zIL99OWXQfMu).
+Download audio data from [link](https://huggingface.co/datasets/hdong51/Human-Animal-Cartoon/blob/main/EPIC-KITCHENS-audio.zip).
 
 Unzip all files and the directory structure should be modified to match:
 <details>
@@ -121,7 +121,7 @@ EPIC-KITCHENS
 
 </details>
 
-4. Download HAC video, audio and optical flow data from [link](https://polybox.ethz.ch/index.php/s/3F8ZWanMMVjKwJK) and extract. The directory structure should be modified to match:
+4. Download HAC video, audio and optical flow data from [link](https://huggingface.co/datasets/hdong51/Human-Animal-Cartoon/tree/main) and extract. The directory structure should be modified to match:
 <details>
 <summary>Click for details...</summary>
 
