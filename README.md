@@ -18,7 +18,7 @@
 
 <div>
     <h4 align="center">
-        • <a href="https://arxiv.org/abs/2405.17419" target='_blank'>arXiv</a> •
+        • <a href="https://arxiv.org/abs/2405.17419" target='_blank'>NeurIPS 2024 (spotlight)</a> •
     </h4>
 </div>
 
