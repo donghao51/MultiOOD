@@ -96,7 +96,7 @@ if args.postprocessor == 'Mahalanobis':
     precision = torch.from_numpy(group_lasso.precision_).float()
 
 if args.postprocessor == 'vim':
-    if args.dataset == 'kinetics':
+    if args.dataset == 'Kinetics':
         feature_name = args.path + '/saved_files/id_'+args.dataset+'_near_ood_feature_' + args.appen + 'val.npy'
     else:
         feature_name = args.path + '/saved_files/id_'+args.dataset+'_near_ood_feature_' + args.appen + 'train.npy'
