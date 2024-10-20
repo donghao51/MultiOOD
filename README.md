@@ -258,7 +258,7 @@ Save the evaluation files for HMDB (to save evaluation files for ASH or ReAct, y
 python test_video_flow.py --bsz 16 --num_workers 2 --near_ood --dataset 'HMDB' --appen 'a2d_npmix_best_' --resumef '/path/to/HMDB_near_ood_a2d_npmix.pt'
 ```
 
-Evaluation for HMDB (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
+Evaluation for HMDB (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
 ```
 python eval_video_flow_near_ood.py --postprocessor msp --appen 'a2d_npmix_best_' --dataset 'HMDB' --path 'HMDB-rgb-flow/'
 ```
@@ -299,7 +299,7 @@ Save the evaluation files for UCF (to save evaluation files for ASH or ReAct, yo
 python test_video_flow.py --bsz 16 --num_workers 2 --near_ood --dataset 'UCF' --appen 'a2d_npmix_best_' --resumef '/path/to/UCF_near_ood_a2d_npmix.pt'
 ```
 
-Evaluation for UCF (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
+Evaluation for UCF (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
 ```
 python eval_video_flow_near_ood.py --postprocessor msp --appen 'a2d_npmix_best_' --dataset 'UCF' --path 'HMDB-rgb-flow/'
 ```
@@ -339,7 +339,7 @@ Save the evaluation files for EPIC (to save evaluation files for ASH or ReAct, y
 python test_video_flow_epic.py --bsz 16 --num_workers 2  --ood_dataset 'EPIC' --appen 'a2d_npmix_best_' --resumef '/path/to/EPIC_near_ood_a2d_npmix.pt'
 ```
 
-Evaluation for EPIC (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
+Evaluation for EPIC (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
 ```
 python eval_video_flow_near_ood.py --postprocessor msp --appen 'a2d_npmix_best_' --dataset 'EPIC' --path 'EPIC-rgb-flow/'
 ```
@@ -379,7 +379,7 @@ Save the evaluation files for Kinetics (to save evaluation files for ASH or ReAc
 python test_video_flow.py --bsz 16 --num_workers 2 --near_ood --dataset 'Kinetics' --appen 'a2d_npmix_best_' --resumef '/path/to/Kinetics_near_ood_a2d_npmix.pt'
 ```
 
-Evaluation for Kinetics (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
+Evaluation for Kinetics (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
 ```
 python eval_video_flow_near_ood.py --postprocessor msp --appen 'a2d_npmix_best_' --dataset 'Kinetics' --path 'HMDB-rgb-flow/'
 ```
@@ -440,7 +440,7 @@ python test_video_flow_epic.py --bsz 16 --num_workers 2 --far_ood --dataset 'HMD
 ```
 
 
-Evaluation for UCF (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint, change `--ood_dataset` to UCF, EPIC, HAC, or Kinetics):
+Evaluation for UCF (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint, change `--ood_dataset` to UCF, EPIC, HAC, or Kinetics):
 ```
 python eval_video_flow_far_ood.py --postprocessor msp --appen 'a2d_npmix_best_' --dataset 'HMDB' --ood_dataset 'UCF' --path 'HMDB-rgb-flow/'
 ```
@@ -500,7 +500,7 @@ python test_video_flow_epic.py --bsz 16 --num_workers 2 --far_ood --dataset 'Kin
 ```
 
 
-Evaluation for UCF (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint, change `--ood_dataset` to UCF, EPIC, HAC, or HMDB):
+Evaluation for UCF (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint, change `--ood_dataset` to UCF, EPIC, HAC, or HMDB):
 ```
 python eval_video_flow_far_ood.py --postprocessor msp --appen 'a2d_npmix_best_' --dataset 'Kinetics' --ood_dataset 'UCF' --path 'HMDB-rgb-flow/'
 ```
@@ -536,7 +536,7 @@ Save the evaluation files for EPIC (to save evaluation files for ASH or ReAct, y
 python test_video_flow_audio_epic.py --bsz 16 --num_workers 2  --ood_dataset 'EPIC' --appen 'a2d_npmix_best_' --resumef '/path/to/EPIC_near_ood_vfa_a2d_npmix.pt'
 ```
 
-Evaluation for EPIC (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
+Evaluation for EPIC (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
 ```
 python eval_video_flow_near_ood.py --postprocessor msp --appen 'vfa_a2d_npmix_best_' --dataset 'EPIC' --path 'EPIC-rgb-flow/'
 ```
@@ -570,7 +570,7 @@ Save the evaluation files for Kinetics (to save evaluation files for ASH or ReAc
 python test_video_flow_audio.py --bsz 16 --num_workers 2 --near_ood --dataset 'Kinetics' --appen 'a2d_npmix_best_' --resumef '/path/to/Kinetics_near_ood_a2d_npmix.pt'
 ```
 
-Evaluation for Kinetics (change `--postprocessor` to different score functions, for VIM you should also pass `----resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
+Evaluation for Kinetics (change `--postprocessor` to different score functions, for VIM you should also pass `--resume_file checkpoint.pt`, where checkpoint.pt is the trained checkpoint):
 ```
 python eval_video_flow_near_ood.py --postprocessor msp --appen 'vfa_a2d_npmix_best_' --dataset 'Kinetics' --path 'HMDB-rgb-flow/'
 ```
