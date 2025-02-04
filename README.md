@@ -602,6 +602,10 @@ If you find our work useful in your research please consider citing our paper:
 
 [MOOSA](https://github.com/donghao51/MOOSA): Towards Multimodal Open-Set Domain Generalization and Adaptation through Self-supervision
 
+[AEO](https://github.com/donghao51/AEO): Towards Robust Multimodal Open-set Test-time Adaptation via Adaptive Entropy-aware Optimization
+
+[Survey](https://github.com/donghao51/Awesome-Multimodal-Adaptation): Advances in Multimodal Adaptation and Generalization: From Traditional Approaches to Foundation Models
+
 ## Acknowledgement
 
-Many thanks to the excellent open-source projects [SimMMDG](https://github.com/donghao51/SimMMDG) and [OpenOOD](https://github.com/Jingkang50/OpenOOD).
+Many thanks to the open-source projects [SimMMDG](https://github.com/donghao51/SimMMDG) and [OpenOOD](https://github.com/Jingkang50/OpenOOD).
