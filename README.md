@@ -34,6 +34,8 @@
 
 MultiOOD is the first-of-its-kind benchmark for Multimodal OOD Detection, characterized by diverse dataset sizes and varying modality combinations.
 
+**Update**: Our recent work [DPU](https://arxiv.org/abs/2411.08227) on multimodal OOD detection has been accepted by CVPR 2025 as a **highlight**!
+
 ## MultiOOD Benchmark
 MultiOOD is based on five public action recognition datasets (HMDB51, UCF101, EPIC-Kitchens, HAC, and Kinetics-600). 
 
