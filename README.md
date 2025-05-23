@@ -36,6 +36,8 @@ MultiOOD is the first-of-its-kind benchmark for Multimodal OOD Detection, charac
 
 **Update**: Our recent work [DPU](https://arxiv.org/abs/2411.08227) on multimodal OOD detection has been accepted by CVPR 2025 as a **highlight**!
 
+**Update**: Our recent work [Feature Mixing](https://arxiv.org/abs/2505.16985) on Multimodal Outlier Synthesis is available on arXiv!
+
 ## MultiOOD Benchmark
 MultiOOD is based on five public action recognition datasets (HMDB51, UCF101, EPIC-Kitchens, HAC, and Kinetics-600). 
 
@@ -599,6 +601,10 @@ If you find our work useful in your research please consider citing our paper:
 ## Related Projects
 
 [NNG-Mix](https://github.com/donghao51/NNG-Mix): Improving Semi-supervised Anomaly Detection with Pseudo-anomaly Generation
+
+[DPU](https://github.com/lili0415/DPU-OOD-Detection/): Dynamic Prototype Updating for Multimodal Out-of-Distribution Detection
+
+[Feature Mixing](https://github.com/mona4399/FeatureMixing): Extremely Simple Multimodal Outlier Synthesis for Out-of-Distribution Detection and Segmentation
 
 [SimMMDG](https://github.com/donghao51/SimMMDG): A Simple and Effective Framework for Multi-modal Domain Generalization
 
