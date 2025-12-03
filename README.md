@@ -36,13 +36,13 @@ MultiOOD is the first-of-its-kind benchmark for Multimodal OOD Detection, charac
 
 **Update**: Our recent work [DPU](https://arxiv.org/abs/2411.08227) on multimodal OOD detection has been accepted by CVPR 2025 as a **highlight**!
 
-**Update**: Our recent work [Feature Mixing](https://arxiv.org/abs/2505.16985) on Multimodal Outlier Synthesis is available on arXiv!
+**Update**: Our recent work [Feature Mixing](https://openreview.net/pdf/9ea07381fafcc7924e43dcd1c46f127ec5c94318.pdf) on Multimodal Outlier Synthesis has been accepted by NeurIPS 2025!
 
 ## MultiOOD Benchmark
 MultiOOD is based on five public action recognition datasets (HMDB51, UCF101, EPIC-Kitchens, HAC, and Kinetics-600). 
 
 ### Prepare Datasets
-1. Download HMDB51 video data from [link](https://serre-lab.clps.brown.edu/resource/hmdb-a-large-human-motion-database/#Downloads) and extract. Download HMDB51 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/hmdb51_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
+1. Download HMDB51 video data from [link](https://serre.lab.brown.edu/hmdb51.html) and extract. Download HMDB51 optical flow data from [link](https://huggingface.co/datasets/hdong51/MultiOOD/blob/main/hmdb51_flow_mp4.tar.gz) and extract. The directory structure should be modified to match:
 <details>
 <summary>Click for details...</summary>
 
